@@ -1,0 +1,79 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" attributeFormDefault="unqualified">
+
+  <xs:element name="Operations">
+    <xs:annotation >
+      <xs:documentation>Pour un élément de modèle, l'opération à effectuer lors de la fusion des compteurs</xs:documentation>
+    </xs:annotation>
+
+    <xs:complexType>
+      <xs:choice minOccurs="1" maxOccurs="unbounded">
+        <xs:element name="OperationFusion">
+          <xs:complexType>
+            <xs:attribute name="typeElement" type="TypeElement" use="required" />
+            <xs:attribute name="typeOperation" type="TypeOperation" use="required" />
+          </xs:complexType>
+        </xs:element>
+
+        <xs:element name="OperationTotaux">
+          <xs:complexType>
+            <xs:attribute name="typeElement" type="TypeElement" use ="required"/>
+            <xs:attribute name="typeOperation" type="TypeOperation" use="required"/>
+          </xs:complexType>
+        </xs:element>
+      </xs:choice>
+
+    </xs:complexType>
+
+  </xs:element>
+
+
+  <!-- ÉNUMÉRATION DES TYPES D'ÉLÉMENTS SUR LESQUELS DES SUBSTITUTIONS PEUVENT S'APPLIQUER -->
+  <xs:simpleType name="TypeElement">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="Consommation"/>
+      <xs:enumeration value="PuissanceReelle"/>
+      <xs:enumeration value="PuissanceApparente"/>
+      <xs:enumeration value="PuissanceAppelee"/>
+      <xs:enumeration value="PuissanceSouscrite"/>
+      <xs:enumeration value="PuissanceMinimale"/>
+      <xs:enumeration value="FacteurPuissance"/>
+      <xs:enumeration value="FacteurUtilisation"/>
+      <xs:enumeration value="PrixUnitaire"/>
+      <xs:enumeration value="Cout"/>
+      <xs:enumeration value="AutreOuiNon"/>
+      <xs:enumeration value="NumeroLivraison"/>
+      <xs:enumeration value="VolumeLivre"/>
+      <xs:enumeration value="VolumeContractuel"/>
+      <xs:enumeration value="ReservoirPlein"/>
+      <xs:enumeration value="PuissanceContractuelle"/>
+      <xs:enumeration value="PrixFourniture"/>
+      <xs:enumeration value="PrixGazCompression"/>
+      <xs:enumeration value="Transport"/>
+      <xs:enumeration value="Equilibrage"/>
+      <xs:enumeration value="Inventaire"/>
+      <xs:enumeration value="VolumeSouscritJournalier"/>
+      <xs:enumeration value="ExcedentVolumeSouscrit"/>
+      <xs:enumeration value="RetraitsInterdits"/>
+      <xs:enumeration value="Ajustement"/>
+      <xs:enumeration value="DepassementsQuotidiens"/>
+      <xs:enumeration value="PuissanceInstallee"/>
+      <xs:enumeration value="Consommation1Hrs"/>
+      <xs:enumeration value="ConsommationPointe"/>
+      <xs:enumeration value="AchatGazAppoint"/>
+      <xs:enumeration value="AchatRetraitInterdit"/>
+      <xs:enumeration value="GazDeCompression"/>
+      <xs:enumeration value="AchatRachatSupplementaires"/>
+      <xs:enumeration value="Information"/>
+    </xs:restriction>
+  </xs:simpleType>
+
+  <!-- ÉNUMÉRATION DES OPÉRATIONS POSSIBLES POUR UN TYPE D'ÉLÉMENT-->
+  <xs:simpleType name="TypeOperation">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="Ignorer"/>
+      <xs:enumeration value="Addition"/>
+    </xs:restriction>
+  </xs:simpleType>
+
+</xs:schema>
