@@ -1,0 +1,26 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+   <xs:element name="valeursCalorifiques">
+      <xs:complexType>
+         <xs:sequence>
+            <xs:element maxOccurs="unbounded" name="categorie">
+               <xs:complexType>
+                  <xs:sequence>
+                     <xs:element maxOccurs="unbounded" name="energie">
+                        <xs:complexType>
+                           <xs:attribute name="id" type="xs:unsignedByte" use="required" />
+                           <xs:attribute name="descr" type="xs:string" use="required" />
+                           <xs:attribute name="facteur" type="xs:decimal" use="required" />
+                        </xs:complexType>
+                     </xs:element>
+                  </xs:sequence>
+                  <xs:attribute name="id" type="xs:unsignedByte" use="required" />
+                  <xs:attribute name="uniteSource" type="xs:unsignedByte" use="required" />
+               </xs:complexType>
+            </xs:element>
+         </xs:sequence>
+         <xs:attribute name="uniteCible" type="xs:unsignedByte" use="required" />
+         <xs:attribute name="description" type="xs:string" use="required" />
+      </xs:complexType>
+   </xs:element>
+</xs:schema>
