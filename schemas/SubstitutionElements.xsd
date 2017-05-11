@@ -1,0 +1,42 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xs:schema id="SubstitutionElements"
+    elementFormDefault="qualified"
+    attributeFormDefault="unqualified"
+    xmlns:xs="http://www.w3.org/2001/XMLSchema"
+>
+   <xs:element name="substitutions">
+      <xs:annotation>
+         <xs:documentation>Définition des éléments subistuables entre les modèles.</xs:documentation>
+      </xs:annotation>
+      <xs:complexType>
+         <xs:choice maxOccurs="unbounded">
+               <xs:element name="substitut">
+                  <xs:complexType>
+                     <xs:attribute name="entree" type="TypeElement" use="required" />
+                     <xs:attribute name="sortie" type="TypeElement" use="required" />
+                  </xs:complexType>
+               </xs:element>
+         </xs:choice>
+      </xs:complexType>
+      <xs:unique name="entreeUnique">
+         <xs:selector xpath="substitut" />
+         <xs:field xpath="@entree" />
+      </xs:unique>
+   </xs:element>
+
+   <!-- ÉNUMÉRATION DES TYPES D'ÉLÉMENTS SUR LESQUELS DES SUBSTITUTIONS PEUVENT S'APPLIQUER -->
+   <xs:simpleType name="TypeElement">
+      <xs:restriction base="xs:string">
+         <xs:enumeration value="NbLogements"/>
+         <xs:enumeration value="PuissanceAppelee"/>
+         <xs:enumeration value="PuissanceMinimale"/>
+         <xs:enumeration value="FacteurUtilisation"/>
+         <xs:enumeration value="PuissanceSouscrite"/>
+         <xs:enumeration value="Consommation"/>
+         <xs:enumeration value="ConsommationAnnuelle"/>
+         <xs:enumeration value="Consommation1Hrs" />
+         <xs:enumeration value="ConsommationPointe" />
+         <xs:enumeration value="VolumeJournalierSouscrit"/>
+      </xs:restriction>
+   </xs:simpleType>
+</xs:schema>
