@@ -1,0 +1,169 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xs:schema targetNamespace="http://helios.grics.qc.ca/parametresOperations.xsd"
+    elementFormDefault="qualified"
+    xmlns="http://helios.grics.qc.ca/parametresOperations.xsd"
+    xmlns:mstns="http://helios.grics.qc.ca/parametresOperations.xsd"
+    xmlns:xs="http://www.w3.org/2001/XMLSchema"
+>
+
+   <!--Élément principal du document : une liste d'opérations-->
+   <xs:element name="operations">
+      <xs:complexType>
+         <xs:sequence>
+            <xs:element name="operation" type="DefinitionOperation" minOccurs="0" maxOccurs="unbounded">
+            </xs:element>
+         </xs:sequence>
+      </xs:complexType>
+      <xs:unique name="nameOperationUnique">
+         <xs:selector xpath="mstns:operation" />
+         <xs:field xpath="@name" />
+      </xs:unique>
+   </xs:element>
+
+   <!--
+   Définition d'une opération
+      Doit avoir un attribut "name" unique et une liste de parametres.
+   -->
+   <xs:complexType name="DefinitionOperation">
+      <xs:sequence minOccurs="0" maxOccurs="1">
+         <xs:element name="parametres" type="ListeParametres">
+            <xs:unique name="nomParametreUnique">
+               <xs:selector xpath="mstns:*" />
+               <xs:field xpath="@name" />
+            </xs:unique>
+         </xs:element>
+      </xs:sequence>
+      <xs:attribute name="name" type="xs:string" use="required" />
+   </xs:complexType>
+
+   <!--
+      Liste de paramètres : Un nombre arbitraire d'éléments de type liste, entier, decimal, etc.
+      Dans l'ordre ou le désordre.
+   -->
+   <xs:complexType name="ListeParametres">
+      <xs:sequence minOccurs="1" maxOccurs="unbounded">
+         <xs:choice minOccurs="1" maxOccurs="1">
+            <xs:element name="liste"  type="ParametreListeChoix">
+               <xs:unique name="optionUnique">
+                  <xs:selector xpath="mstns:option" />
+                  <xs:field xpath="@value" />
+               </xs:unique>
+            </xs:element>
+            <xs:element name="listeTypeEnergie"  type="ParametreTypeEnergieChoix" />
+            <xs:element name="listeFournisseurs"  type="ParametreTypeFournisseurChoix" />
+            <xs:element name="entier" type="ParametreEntier" />
+            <xs:element name="decimal" type="ParametreDecimal" />
+            <xs:element name="choixCompteur" type="ParametreCompteur" />
+            <xs:element name="listeTarif" type="ParametreTarif" />
+         </xs:choice>
+      </xs:sequence>
+   </xs:complexType>
+
+   <!--
+      Une liste de choix
+   -->
+   <xs:complexType name="ParametreListeChoix">
+      <xs:annotation>
+         <xs:documentation>
+            Pour permettre de choisir une valeur dans une liste prédéfinie
+         </xs:documentation>
+      </xs:annotation>
+      <xs:sequence>
+         <xs:element name="option" minOccurs="0" maxOccurs="unbounded">
+            <xs:complexType>
+               <xs:annotation>
+                  <xs:documentation>
+                     La valeur (value) correspond à la valeur du paramètre.
+                     La ressource permet d'aller chercher le texte localisé dans Options.resx pour l'affichage.
+                  </xs:documentation>
+               </xs:annotation>
+               <xs:attribute name="value" use="required" type="xs:string" />
+               <xs:attribute name="ressource" use="required" type="xs:string" />
+            </xs:complexType>
+         </xs:element>
+      </xs:sequence>
+      <xs:attribute name="name" type="xs:string" use="required" />
+      <xs:attribute name="ressource" use="required" type="xs:string" />
+   </xs:complexType>
+   
+   <!--
+      Liste de types d'énergie
+   -->
+   <xs:complexType name="ParametreTypeEnergieChoix">
+      <xs:annotation>
+         <xs:documentation>
+            Pour permettre de choisir un type d'énergie
+         </xs:documentation>
+      </xs:annotation>
+      <xs:attribute name="name" type="xs:string" use="required" />
+      <xs:attribute name="ressource" use="required" type="xs:string" />
+   </xs:complexType>
+   <!--
+      Liste des fournisseurs
+   -->
+   <xs:complexType name="ParametreTypeFournisseurChoix">
+      <xs:annotation>
+         <xs:documentation>
+            Pour permettre de choisir le fournisseur
+         </xs:documentation>
+      </xs:annotation>
+      <xs:attribute name="name" type="xs:string" use="required" />
+      <xs:attribute name="ressource" use="required" type="xs:string" />
+   </xs:complexType>
+   
+   <!--
+      Liste de tarifs
+   -->
+   <xs:complexType name="ParametreTarif">
+      <xs:annotation>
+         <xs:documentation>
+            Permet de choisir un tarif
+         </xs:documentation>
+      </xs:annotation>
+      <xs:attribute name="name" type="xs:string" use="required" />
+      <xs:attribute name="ressource" use="required" type="xs:string" />
+   </xs:complexType>
+   
+   <!--
+      Un entier
+   -->
+   <xs:complexType name="ParametreEntier">
+      <xs:annotation>
+         <xs:documentation>
+            Représente un nombre entier. Le min et le max sont facultatifs.
+         </xs:documentation>
+      </xs:annotation>
+      <xs:attribute name="name" type="xs:string" use="required" />
+      <xs:attribute name="min" use="optional" type="xs:int" />
+      <xs:attribute name="max" use="optional" type="xs:int" />
+      <xs:attribute name="ressource" use="required" type="xs:string" />
+   </xs:complexType>
+
+   <!--
+      Un décimal
+   -->
+   <xs:complexType name="ParametreDecimal">
+      <xs:annotation>
+         <xs:documentation>
+            Représente un nombre décimal. Le min et le max sont facultatifs.
+         </xs:documentation>
+      </xs:annotation>
+      <xs:attribute name="name" type="xs:string" use="required" />
+      <xs:attribute name="min" use="optional" type="xs:decimal" />
+      <xs:attribute name="max" use="optional" type="xs:decimal" />
+      <xs:attribute name="ressource" use="required" type="xs:string" />
+   </xs:complexType>
+   
+   <!--
+      Un choix de compteur
+   -->
+   <xs:complexType name="ParametreCompteur">
+      <xs:annotation>
+         <xs:documentation>
+            Représente un lien qui permet de choisir un compteur.
+         </xs:documentation>
+      </xs:annotation>
+      <xs:attribute name="name" use="required" type="xs:string"/>
+      <xs:attribute name="ressource" use="required" type="xs:string" />
+   </xs:complexType>
+</xs:schema>
