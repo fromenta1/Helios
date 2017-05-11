@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- édité avec XMLSpy v2017 sp1 (x64) (http://www.altova.com) par Francis Ouellet (Grics) -->
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:vc="http://www.w3.org/2007/XMLSchema-versioning" xmlns:altova="http://www.altova.com/xml-schema-extensions" elementFormDefault="qualified" attributeFormDefault="unqualified" vc:minVersion="1.1">
+	<xs:element name="RIP">
+		<xs:annotation>
+			<xs:documentation>Définition de rapport pour Oozmakappa</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:sequence maxOccurs="unbounded">
+				<xs:element name="Page" maxOccurs="unbounded">
+					<xs:complexType>
+						<xs:sequence maxOccurs="unbounded">
+							<xs:element name="Entete" type="Section" minOccurs="0" maxOccurs="unbounded"/>
+							<xs:element name="Detail" type="Section" maxOccurs="unbounded"/>
+							<xs:element name="Pied" type="Section" minOccurs="0" maxOccurs="unbounded"/>
+						</xs:sequence>
+						<xs:attribute name="Description" type="xs:string"/>
+						<xs:attribute name="Repetitive" type="xs:boolean" default="false"/>
+						<xs:attribute name="Name" use="required">
+							<xs:annotation>
+								<xs:documentation>Affiché comme nom de l'onglet dans Excel</xs:documentation>
+							</xs:annotation>
+						</xs:attribute>
+					</xs:complexType>
+				</xs:element>
+			</xs:sequence>
+			<xs:attribute name="Template" type="xs:string"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="Donnee">
+		<xs:complexType>
+			<xs:choice minOccurs="0">
+				<xs:element name="ReglesFormat" minOccurs="0">
+					<xs:complexType>
+						<xs:sequence maxOccurs="3">
+							<xs:element name="Regle">
+								<xs:complexType>
+									<xs:attribute name="Condition"/>
+									<xs:attribute name="Seuil"/>
+									<xs:attribute name="CouleurTexte"/>
+									<xs:attribute name="CouleurFond"/>
+									<xs:attributeGroup ref="Police"/>
+								</xs:complexType>
+							</xs:element>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element ref="Donnee" minOccurs="0" maxOccurs="unbounded"/>
+			</xs:choice>
+			<xs:attribute name="Description" type="xs:string"/>
+			<xs:attribute name="DataField" type="xs:string" use="optional"/>
+			<xs:attribute name="PageRef" type="xs:string" use="optional"/>
+			<xs:attributeGroup ref="Cellule"/>
+			<xs:attributeGroup ref="Police"/>
+			<!-- <xs:assert test="(@Format = 'Formule' and @Formule) or not(@Format = 'Formule' or @Formule)"/> -->
+		</xs:complexType>
+	</xs:element>
+	<xs:complexType name="Section">
+		<xs:choice minOccurs="0" maxOccurs="unbounded">
+			<xs:element ref="Donnee" maxOccurs="unbounded"/>
+		</xs:choice>
+		<xs:attribute name="Name" use="required"/>
+		<xs:attribute name="Colonne" type="xs:int" use="optional" default="1"/>
+		<xs:attribute name="Description" type="xs:string" use="optional"/>
+		<xs:attribute name="AlternerLigne" type="xs:boolean" default="false"/>
+        <xs:attribute name="AutoFiltre" type="xs:boolean"  use="optional"/>
+	</xs:complexType>
+	<xs:simpleType name="TypeRepresentation">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="Nombre"/>
+			<xs:enumeration value="Monetaire"/>
+			<xs:enumeration value="Date"/>
+			<xs:enumeration value="Heure"/>
+			<xs:enumeration value="Pourcentage"/>
+			<xs:enumeration value="Texte"/>
+			<xs:enumeration value="Hyperlien"/>
+			<xs:enumeration value="Entier"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:attributeGroup name="Cellule">
+		<xs:attribute name="Format" type="TypeRepresentation" use="optional" default="Texte"/>
+		<xs:attribute name="Formule" type="Formule" use="optional"/>
+		<xs:attribute name="Fusion" type="xs:int"/>
+		<xs:attribute name="Largeur" type="xs:int"/>
+		<xs:attribute name="VAlign" type="AlignementVertical">
+			<xs:annotation>
+				<xs:documentation>Alignement vertical</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="HAlign" type="AlignementHorizontal">
+			<xs:annotation>
+				<xs:documentation>Alignement horizontal</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="WrapText" type="xs:boolean" default="true"/>
+		<xs:attribute name="CouleurTexte"/>
+		<xs:attribute name="CouleurFond"/>
+	</xs:attributeGroup>
+	<xs:simpleType name="AlignementVertical">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="Haut"/>
+			<xs:enumeration value="Bas"/>
+			<xs:enumeration value="Centre"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="AlignementHorizontal">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="Gauche"/>
+			<xs:enumeration value="Droite"/>
+			<xs:enumeration value="Centre"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:attributeGroup name="Police">
+		<xs:attribute name="Gras" type="xs:boolean" use="optional" default="false"/>
+		<xs:attribute name="Italique" type="xs:boolean" use="optional" default="false"/>
+		<xs:attribute name="Souligne" type="xs:boolean" use="optional" default="false"/>
+		<xs:attribute name="Grosseur" type="xs:int"/>
+		<xs:attribute name="NomPolice" type="xs:string"/>
+	</xs:attributeGroup>
+	<xs:simpleType name="Formule">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="Sum"/>
+			<xs:enumeration value="Average"/>
+			<xs:enumeration value="Count"/>
+			<xs:enumeration value="Max"/>
+			<xs:enumeration value="Min"/>
+         <xs:enumeration value="SubTotal"/>
+		</xs:restriction>
+	</xs:simpleType>
+</xs:schema>
