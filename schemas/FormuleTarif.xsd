@@ -171,6 +171,8 @@
 			<xs:enumeration value="RPT"/>
 			<xs:enumeration value="LG"/>
 			<xs:enumeration value="EVP"/>
+			<xs:enumeration value="DP"/>
+			<xs:enumeration value="DN"/>
 		</xs:restriction>
 	</xs:simpleType>
 	<xs:simpleType name="NomSaison">
